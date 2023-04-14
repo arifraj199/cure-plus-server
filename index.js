@@ -33,20 +33,25 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/allservices/:id",async(req,res)=>{
+    app.get("/allservices/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id:new ObjectId(id)};
+      const query = { _id: new ObjectId(id) };
       const result = await serviceCollection.findOne(query);
       res.send(result);
     });
 
-    app.get("/review",async(req,res)=>{
+    app.get("/review", async (req, res) => {
       const cursor = reviewCollection.find({});
       const result = await cursor.toArray();
       res.send(result);
-    })
+    });
 
-
+    app.post("/review", async (req, res) => {
+      const userReview = req.body;
+      console.log(userReview);
+      const result = await reviewCollection.insertOne(userReview);
+      res.send(result);
+    });
   } finally {
   }
 }
